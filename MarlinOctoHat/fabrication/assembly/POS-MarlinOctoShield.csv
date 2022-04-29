@@ -1,0 +1,26 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+D1,1N4148,D_DO-35_SOD27_P7.62mm_Horizontal,136.38,-105.2385,0.0,top
+EXP1,Conn_02x05_Odd_Even,IDC-Header_2x05_P2.54mm_Vertical,152.359,-115.9065,-90.0,top
+EXP2,Conn_02x05_Odd_Even,IDC-Header_2x05_P2.54mm_Vertical,129.118,-115.9065,-90.0,top
+J1,Screw_Terminal_01x03,"TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",114.917,-78.8225,-90.0,top
+J2,Conn_01x02_Male,JST_KNOCKOFF_XH_B2B-XH-A_1x02_P2.54mm_Vertical,113.139,-91.3955,-90.0,top
+J3,Conn_01x04_Male,JST_KNOCKOFF_XH_B4B-XH-A_1x04_P2.54mm_Vertical,123.316,-91.3955,-90.0,top
+J4,Conn_01x03_Male,JST_KNOCKOFF_XH_B3B-XH-A_1x03_P2.54mm_Vertical,133.332,-91.3955,-90.0,top
+J5,Conn_01x04_Male,JST_KNOCKOFF_XH_B4B-XH-A_1x04_P2.54mm_Vertical,113.122007,-100.4125,-90.0,top
+J6,Conn_01x02_Male,JST_KNOCKOFF_XH_B2B-XH-A_1x02_P2.54mm_Vertical,123.316,-105.4925,-90.0,top
+J7,Conn_01x02_Male,PinHeader_1x04_P2.54mm_Vertical,131.41,-102.0535,0.0,top
+J8,Conn_01x07_Female,PinSocket_1x07_P2.54mm_Vertical,172.707,-114.0015,90.0,top
+JP3,Jumper_2_Open,PinHeader_1x03_P2.54mm_Vertical,172.707,-102.5715,0.0,top
+JP4,Jumper_3_Bridged12,PinHeader_1x03_P2.54mm_Vertical,176.385,-102.5715,0.0,top
+JP5,Jumper_3_Bridged12,PinHeader_1x03_P2.54mm_Vertical,180.068,-102.5765,0.0,top
+JP6,Jumper_3_Bridged12,PinHeader_1x03_P2.54mm_Vertical,183.751,-102.5715,0.0,top
+Q1,BC547,TO-92_Inline,129.12,-83.7755,90.0,top
+Q2,BC547,TO-92_Inline,153.4615,-101.9915,0.0,top
+Q3,BC547,TO-92_Inline,147.3655,-101.9915,0.0,top
+Q4,BC547,TO-92_Inline,152.89,-106.918902,180.0,top
+R1,10k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,122.791,-77.2985,-90.0,top
+R2,470,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,166.6695,-102.0,180.0,top
+R3,10k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,136.38,-102.0,0.0,top
+R4,10k,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,159.0495,-105.2385,0.0,top
+U1,YAAJ_BluePill_Part_Like,YAAJ_BluePill_1,187.942,-79.4575,-90.0,top
+U2,YAAJ_Raspberry_Pi_2_3_GPIO,PinHeader_2x20_P2.54mm_Vertical,113.901,-71.9645,90.0,top

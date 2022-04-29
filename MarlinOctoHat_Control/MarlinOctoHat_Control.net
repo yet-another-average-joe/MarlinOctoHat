@@ -1,0 +1,616 @@
+(export 
+  (version "E") 
+  (design 
+    (source "D:\\Users\\admin\\Documents\\Bidouilles\\OctoPrinter\\KiCad\\Control Panel\\Control Panel.kicad_sch") 
+    (date "04/10/2021 00:58:51") 
+    (tool "Eeschema (5.99.0-12654-g7c432d7a50)") 
+    (sheet 
+      (number "1") 
+      (name "/") 
+      (tstamps "/") 
+      (title_block 
+        (title) 
+        (company) 
+        (rev) 
+        (date) 
+        (source "Control Panel.kicad_sch") 
+        (comment 
+          (number "1") 
+          (value "")) 
+        (comment 
+          (number "2") 
+          (value "")) 
+        (comment 
+          (number "3") 
+          (value "")) 
+        (comment 
+          (number "4") 
+          (value "")) 
+        (comment 
+          (number "5") 
+          (value "")) 
+        (comment 
+          (number "6") 
+          (value "")) 
+        (comment 
+          (number "7") 
+          (value "")) 
+        (comment 
+          (number "8") 
+          (value "")) 
+        (comment 
+          (number "9") 
+          (value ""))))) 
+  (components 
+    (comp 
+      (ref "D1") 
+      (value "D") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Device") 
+        (part "D") 
+        (description "Diode")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "dc1b52cd-2c87-457e-a3ee-bf648c0bcbe0")) 
+    (comp 
+      (ref "J1") 
+      (value "Conn_01x10_Male") 
+      (footprint "Connector_JST:JST_PH_S10B-PH-K_1x10_P2.00mm_Horizontal") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Connector") 
+        (part "Conn_01x10_Male") 
+        (description "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "fdfcb4e5-4172-4645-96dc-686b6358e3f1")) 
+    (comp 
+      (ref "J2") 
+      (value "Conn_01x02_Male") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Connector") 
+        (part "Conn_01x02_Male") 
+        (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "9408fc12-bccc-41cc-81ae-0bcdd76c6eac")) 
+    (comp 
+      (ref "LS1") 
+      (value "50 ohm") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Device") 
+        (part "Speaker") 
+        (description "Speaker")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "195e5265-37b6-44e0-8a13-8298eea40263")) 
+    (comp 
+      (ref "RV1") 
+      (value "1k log") 
+      (footprint "Potentiometer_THT:Potentiometer_Bourns_PTV09A-1_Single_Vertical") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Device") 
+        (part "R_Potentiometer") 
+        (description "Potentiometer")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "e2343010-79ee-4373-94f1-b9a3de022a41")) 
+    (comp 
+      (ref "SW1") 
+      (value "RotaryEncoder_Switch") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Device") 
+        (part "RotaryEncoder_Switch") 
+        (description "Rotary encoder, dual channel, incremental quadrate outputs, with switch")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "b85211ac-2628-4142-83b6-80e1ba53472f")) 
+    (comp 
+      (ref "SW2") 
+      (value "3") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Switch") 
+        (part "SW_Push") 
+        (description "Push button switch, generic, two pins")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "703a685a-4d58-4fe1-adf2-6829f38e920d")) 
+    (comp 
+      (ref "SW3") 
+      (value "SW_Push") 
+      (datasheet "~") 
+      (libsource 
+        (lib "Switch") 
+        (part "SW_Push") 
+        (description "Push button switch, generic, two pins")) 
+      (property 
+        (name "Sheetname") 
+        (value "")) 
+      (property 
+        (name "Sheetfile") 
+        (value "Control Panel.kicad_sch")) 
+      (sheetpath 
+        (names "/") 
+        (tstamps "/")) 
+      (tstamps "0ed3d310-ef1f-4f8d-a126-a46ee58c0528"))) 
+  (libparts 
+    (libpart 
+      (lib "Connector") 
+      (part "Conn_01x02_Male") 
+      (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)") 
+      (docs "~") 
+      (footprints 
+        (fp "Connector*:*_1x??_*")) 
+      (fields 
+        (field 
+          (name "Reference") "J") 
+        (field 
+          (name "Value") "Conn_01x02_Male") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "Pin_1") 
+          (type "passive")) 
+        (pin 
+          (num "2") 
+          (name "Pin_2") 
+          (type "passive")))) 
+    (libpart 
+      (lib "Connector") 
+      (part "Conn_01x10_Male") 
+      (description "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)") 
+      (docs "~") 
+      (footprints 
+        (fp "Connector*:*_1x??_*")) 
+      (fields 
+        (field 
+          (name "Reference") "J") 
+        (field 
+          (name "Value") "Conn_01x10_Male") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "Pin_1") 
+          (type "passive")) 
+        (pin 
+          (num "2") 
+          (name "Pin_2") 
+          (type "passive")) 
+        (pin 
+          (num "3") 
+          (name "Pin_3") 
+          (type "passive")) 
+        (pin 
+          (num "4") 
+          (name "Pin_4") 
+          (type "passive")) 
+        (pin 
+          (num "5") 
+          (name "Pin_5") 
+          (type "passive")) 
+        (pin 
+          (num "6") 
+          (name "Pin_6") 
+          (type "passive")) 
+        (pin 
+          (num "7") 
+          (name "Pin_7") 
+          (type "passive")) 
+        (pin 
+          (num "8") 
+          (name "Pin_8") 
+          (type "passive")) 
+        (pin 
+          (num "9") 
+          (name "Pin_9") 
+          (type "passive")) 
+        (pin 
+          (num "10") 
+          (name "Pin_10") 
+          (type "passive")))) 
+    (libpart 
+      (lib "Device") 
+      (part "D") 
+      (description "Diode") 
+      (docs "~") 
+      (footprints 
+        (fp "TO-???*") 
+        (fp "*_Diode_*") 
+        (fp "*SingleDiode*") 
+        (fp "D_*")) 
+      (fields 
+        (field 
+          (name "Reference") "D") 
+        (field 
+          (name "Value") "D") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "K") 
+          (type "passive")) 
+        (pin 
+          (num "2") 
+          (name "A") 
+          (type "passive")))) 
+    (libpart 
+      (lib "Device") 
+      (part "R_Potentiometer") 
+      (description "Potentiometer") 
+      (docs "~") 
+      (footprints 
+        (fp "Potentiometer*")) 
+      (fields 
+        (field 
+          (name "Reference") "RV") 
+        (field 
+          (name "Value") "R_Potentiometer") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "1") 
+          (type "passive")) 
+        (pin 
+          (num "2") 
+          (name "2") 
+          (type "passive")) 
+        (pin 
+          (num "3") 
+          (name "3") 
+          (type "passive")))) 
+    (libpart 
+      (lib "Device") 
+      (part "RotaryEncoder_Switch") 
+      (description "Rotary encoder, dual channel, incremental quadrate outputs, with switch") 
+      (docs "~") 
+      (footprints 
+        (fp "RotaryEncoder*Switch*")) 
+      (fields 
+        (field 
+          (name "Reference") "SW") 
+        (field 
+          (name "Value") "RotaryEncoder_Switch") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "A") 
+          (name "A") 
+          (type "passive")) 
+        (pin 
+          (num "B") 
+          (name "B") 
+          (type "passive")) 
+        (pin 
+          (num "C") 
+          (name "C") 
+          (type "passive")) 
+        (pin 
+          (num "S1") 
+          (name "S1") 
+          (type "passive")) 
+        (pin 
+          (num "S2") 
+          (name "S2") 
+          (type "passive")))) 
+    (libpart 
+      (lib "Device") 
+      (part "Speaker") 
+      (description "Speaker") 
+      (docs "~") 
+      (fields 
+        (field 
+          (name "Reference") "LS") 
+        (field 
+          (name "Value") "Speaker") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "1") 
+          (type "input")) 
+        (pin 
+          (num "2") 
+          (name "2") 
+          (type "input")))) 
+    (libpart 
+      (lib "Switch") 
+      (part "SW_Push") 
+      (description "Push button switch, generic, two pins") 
+      (docs "~") 
+      (fields 
+        (field 
+          (name "Reference") "SW") 
+        (field 
+          (name "Value") "SW_Push") 
+        (field 
+          (name "Datasheet") "~")) 
+      (pins 
+        (pin 
+          (num "1") 
+          (name "1") 
+          (type "passive")) 
+        (pin 
+          (num "2") 
+          (name "2") 
+          (type "passive"))))) 
+  (libraries 
+    (library 
+      (logical "Connector") 
+      (uri "C:\\Program Files\\KiCad\\5.99\\share\\kicad\\library/Connector.kicad_sym")) 
+    (library 
+      (logical "Device") 
+      (uri "C:\\Program Files\\KiCad\\5.99\\share\\kicad\\library/Device.kicad_sym")) 
+    (library 
+      (logical "Switch") 
+      (uri "C:\\Program Files\\KiCad\\5.99\\share\\kicad\\library/Switch.kicad_sym"))) 
+  (nets 
+    (net 
+      (code "1") 
+      (name "+5V") 
+      (node 
+        (ref "D1") 
+        (pin "1") 
+        (pinfunction "K") 
+        (pintype "passive")) 
+      (node 
+        (ref "J2") 
+        (pin "2") 
+        (pinfunction "Pin_2") 
+        (pintype "passive")) 
+      (node 
+        (ref "SW3") 
+        (pin "2") 
+        (pinfunction "2") 
+        (pintype "passive"))) 
+    (net 
+      (code "2") 
+      (name "BTN_EN1") 
+      (node 
+        (ref "SW1") 
+        (pin "B") 
+        (pinfunction "B") 
+        (pintype "passive"))) 
+    (net 
+      (code "3") 
+      (name "BTN_EN2") 
+      (node 
+        (ref "SW1") 
+        (pin "A") 
+        (pinfunction "A") 
+        (pintype "passive"))) 
+    (net 
+      (code "4") 
+      (name "BTN_ENC") 
+      (node 
+        (ref "SW1") 
+        (pin "S2") 
+        (pinfunction "S2") 
+        (pintype "passive"))) 
+    (net 
+      (code "5") 
+      (name "BTN_MODE") 
+      (node 
+        (ref "SW2") 
+        (pin "2") 
+        (pinfunction "2") 
+        (pintype "passive"))) 
+    (net 
+      (code "6") 
+      (name "ENC_EN") 
+      (node 
+        (ref "SW1") 
+        (pin "C") 
+        (pinfunction "C") 
+        (pintype "passive")) 
+      (node 
+        (ref "SW1") 
+        (pin "S1") 
+        (pinfunction "S1") 
+        (pintype "passive"))) 
+    (net 
+      (code "7") 
+      (name "GND") 
+      (node 
+        (ref "SW2") 
+        (pin "1") 
+        (pinfunction "1") 
+        (pintype "passive"))) 
+    (net 
+      (code "8") 
+      (name "RESET") 
+      (node 
+        (ref "SW3") 
+        (pin "1") 
+        (pinfunction "1") 
+        (pintype "passive"))) 
+    (net 
+      (code "9") 
+      (name "SPKR_IN") 
+      (node 
+        (ref "RV1") 
+        (pin "2") 
+        (pinfunction "2") 
+        (pintype "passive")) 
+      (node 
+        (ref "RV1") 
+        (pin "3") 
+        (pinfunction "3") 
+        (pintype "passive"))) 
+    (net 
+      (code "10") 
+      (name "SPKR_OUT") 
+      (node 
+        (ref "D1") 
+        (pin "2") 
+        (pinfunction "A") 
+        (pintype "passive")) 
+      (node 
+        (ref "J2") 
+        (pin "1") 
+        (pinfunction "Pin_1") 
+        (pintype "passive")) 
+      (node 
+        (ref "RV1") 
+        (pin "1") 
+        (pinfunction "1") 
+        (pintype "passive"))) 
+    (net 
+      (code "11") 
+      (name "unconnected-(J1-Pad1)") 
+      (node 
+        (ref "J1") 
+        (pin "1") 
+        (pinfunction "Pin_1") 
+        (pintype "passive"))) 
+    (net 
+      (code "12") 
+      (name "unconnected-(J1-Pad2)") 
+      (node 
+        (ref "J1") 
+        (pin "2") 
+        (pinfunction "Pin_2") 
+        (pintype "passive"))) 
+    (net 
+      (code "13") 
+      (name "unconnected-(J1-Pad3)") 
+      (node 
+        (ref "J1") 
+        (pin "3") 
+        (pinfunction "Pin_3") 
+        (pintype "passive"))) 
+    (net 
+      (code "14") 
+      (name "unconnected-(J1-Pad4)") 
+      (node 
+        (ref "J1") 
+        (pin "4") 
+        (pinfunction "Pin_4") 
+        (pintype "passive"))) 
+    (net 
+      (code "15") 
+      (name "unconnected-(J1-Pad5)") 
+      (node 
+        (ref "J1") 
+        (pin "5") 
+        (pinfunction "Pin_5") 
+        (pintype "passive"))) 
+    (net 
+      (code "16") 
+      (name "unconnected-(J1-Pad6)") 
+      (node 
+        (ref "J1") 
+        (pin "6") 
+        (pinfunction "Pin_6") 
+        (pintype "passive"))) 
+    (net 
+      (code "17") 
+      (name "unconnected-(J1-Pad7)") 
+      (node 
+        (ref "J1") 
+        (pin "7") 
+        (pinfunction "Pin_7") 
+        (pintype "passive"))) 
+    (net 
+      (code "18") 
+      (name "unconnected-(J1-Pad8)") 
+      (node 
+        (ref "J1") 
+        (pin "8") 
+        (pinfunction "Pin_8") 
+        (pintype "passive"))) 
+    (net 
+      (code "19") 
+      (name "unconnected-(J1-Pad9)") 
+      (node 
+        (ref "J1") 
+        (pin "9") 
+        (pinfunction "Pin_9") 
+        (pintype "passive"))) 
+    (net 
+      (code "20") 
+      (name "unconnected-(J1-Pad10)") 
+      (node 
+        (ref "J1") 
+        (pin "10") 
+        (pinfunction "Pin_10") 
+        (pintype "passive"))) 
+    (net 
+      (code "21") 
+      (name "unconnected-(LS1-Pad1)") 
+      (node 
+        (ref "LS1") 
+        (pin "1") 
+        (pinfunction "1") 
+        (pintype "input"))) 
+    (net 
+      (code "22") 
+      (name "unconnected-(LS1-Pad2)") 
+      (node 
+        (ref "LS1") 
+        (pin "2") 
+        (pinfunction "2") 
+        (pintype "input")))))

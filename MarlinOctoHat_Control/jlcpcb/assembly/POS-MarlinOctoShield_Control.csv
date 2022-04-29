@@ -1,0 +1,7 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+J1,Conn_01x02_Male,JST_KNOCKOFF_XH_B2B-XH-A_1x02_P2.54mm_Vertical,16.27,-3.0,180.0,bottom
+J2,Conn_01x04_Male,JST_KNOCKOFF_XH_B4B-XH-A_1x04_P2.54mm_Vertical,41.25,-3.0,180.0,bottom
+J3,Conn_01x02_Male,JST_KNOCKOFF_XH_B2B-XH-A_1x02_P2.54mm_Vertical,61.27,-3.0,180.0,bottom
+SW1,SW_Push,SW_PUSH_6mm_H4.3mm_Orig_Center,15.0,-16.0,-90.0,top
+SW2,RotaryEncoder_Switch,RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm_CircularMountingHoles_Orig_Center,37.5,-16.0,-90.0,top
+SW3,3,SW_PUSH_6mm_H4.3mm_Orig_Center,60.0,-16.0,-90.0,top
