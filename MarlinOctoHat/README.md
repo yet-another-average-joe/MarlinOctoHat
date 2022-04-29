@@ -1,5 +1,9 @@
-﻿# MarlinOctoHat
+﻿# MarlinOctoHat : hat PCB
  
+KiCad 6.0 project :
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8491.JPG)
+- bom : bill of material created with "Interactive Html Bom" plugin
+- fabrication : fabrication files created with "KiCAD JLCPCB tools" plugin
+
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/MarlinOctoHat/MarlinOctoHat.png)
 
