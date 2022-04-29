@@ -16,7 +16,6 @@ The two PCBs are inexpensive, easy to populate (THT components only), and requir
 
 For the RasPi softwares (service and OctoPrint plugin), see xxxxxxxx
 
-**The SSD1306 (MKS OLED 1.3" 128×64 Full Graphics Controller) is not enabled for every motherboard, even if the option is available in Configuration.h ("#define MKS_12864OLED_SSD1306") ; enabling support is not difficult, but requires sone basic knowledge ! The file to be edited is somwhere under /src/HAL : some "#define..." to add. The motherboard schematics and pinouts could be required ; forums and sicussion groups could be helpfull !**
-
+**The SSD1306 (MKS OLED 1.3" 128×64 Full Graphics Controller) is not enabled for all motherboard, even though the option is available in Configuration.h ("#define MKS_12864OLED_SSD1306") ; enabling support is not difficult, but requires sone basic knowledge ! The file to be edited is somwhere under /src/HAL : some "#define..." to add. The motherboard schematics and pinouts might be needed ; forums and dicussion groups could be helpfull !**
 
 
