@@ -22,7 +22,7 @@ First, enble the "MKS OLED 1.3" 128x64 Full Graphics Controller" in Configuratti
 
 #define MKS_12864OLED
 
-Then search for such a block in your pins definitions file :
+Then search for such a block in your pins definition file :
 
       #elif ENABLED(MKS_12864OLED_SSD1306)
         #define DOGLCD_CS            EXP1_05_PIN
