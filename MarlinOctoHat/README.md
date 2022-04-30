@@ -11,7 +11,7 @@ subfolders :
 
 ![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/MarlinOctoHat.png)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/MarlinOctoHat.png)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8483.JPG)
 
 
 
