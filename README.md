@@ -21,6 +21,7 @@ Hat firmware : see https://github.com/yet-another-average-joe/MarlinOctoHat/tree
 RasPi software (service and OctoPrint plugin) :
 
 service : https://github.com/yet-another-average-joe/OctoPrint_MarlinOSD_Service
+
 plugin : https://github.com/yet-another-average-joe/OctoPrint_MarlinOSD_Plugin
 
 **The SSD1306 (MKS OLED 1.3" 128x64 Full Graphics Controller) is not enabled for all motherboard, even though the option is available in Configuration.h ("#define MKS_12864OLED_SSD1306") ; enabling support is not difficult, but requires sone basic knowledge about Marlin and microcontrollers ! The pins files are somewhere under Marlin/src/pins : some "#define..." to add if needed. The motherboard schematics and pinouts might be needed ; forums and dicussion groups could be helpfull !**
