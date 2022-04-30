@@ -8,7 +8,7 @@ The MKS OLED 1.3" 128x64 Full Graphics Controller is based on the SSD1306, a ver
 
 The Marlin graphics driver (a optimized u8glib fork) sends bitmaps @1Mbps. The STM32 BluePill gets these frames, reencodes them, and makes them available to the RaspBerry Pi SPI master interface. When a new frame is ready, the STM32 sends a pulse to the RasPi. The RasPi then reads the STM32 at up to 28Mbps (adjustable in the OctoPrint plugin).
 
-The RaspBerry runs a service [TODO : PUT THE LINK HERE], and displays the Marlin UI on the RaspBerry LCD.
+The RaspBerry runs a service that overlays the Marlin UI on the RaspBerry display using dispmanx.
 
 This repo contains everything needed to build the hat (two PCBs and a firmware) that replaces the 12864 display. The hat is connected to the printer motherboard through the EXP1 and EXP2 connectors, and breaks out the rotary encoder, the reset button for the STM32 and the motherboard, the speaker, the "Marlin Mode" button, and a 5V screw terminal to power RassPi and the STM32. It also breaks out the RasPi UART for direct connection to the motherboard (if supported...).
 
