@@ -35,7 +35,9 @@ Then search for such a block in your pins definition file :
 
 If you don't find such a block, you will have to figure wich microcontroller pins go to the EXP1 and EXP2 pin headers. 
 
-**THIS IS AN EXAMPLE !** : lines I had to add to Marlin/src/pins/lpc1768/pins_BTT_SKR_V1_4.h for a SKR 1.4 Turbo. **THIS IS AN EXAMPLE !**
+**THIS IS AN EXAMPLE !** : lines I had to add to Marlin/src/pins/lpc1768/pins_BTT_SKR_V1_4.h for a SKR 1.4 Turbo.
+
+
 
 
 ![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8491.JPG)
