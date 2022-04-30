@@ -22,14 +22,16 @@ RasPi software (service and OctoPrint plugin) : see [TODO : WRPUT THE LINK HERE]
 
 **The SSD1306 (MKS OLED 1.3" 128x64 Full Graphics Controller) is not enabled for all motherboard, even though the option is available in Configuration.h ("#define MKS_12864OLED_SSD1306") ; enabling support is not difficult, but requires sone basic knowledge about Marlin and microcontrollers ! The pins files are somewhere under Marlin/src/pins : some "#define..." to add if needed. The motherboard schematics and pinouts might be needed ; forums and dicussion groups could be helpfull !**
 
-First, enble the "MKS OLED 1.3" 128x64 Full Graphics Controller" in Configurattion.h :
+First, enable the "MKS OLED 1.3" 128x64 Full Graphics Controller" in Configurattion.h :
 
 #define MKS_12864OLED
 
-If the OLED is not supported, you will get an error similar to :
+If the OLED is not supported, you will get a compile error similar to :
 
 In file included from Marlin\src\lcd\dogm\marlinui_DOGM.cpp:42:
+
 Marlin\src\lcd\dogm\marlinui_DOGM.cpp: In static member function 'static void MarlinUI::init_lcd()':
+
 Marlin\src\lcd\dogm\marlinui_DOGM.h:223:48: error: 'DOGLCD_CS' was not declared in this scope; did you mean 'DOGLCD_SCK'?
 
 You'll have to add such a block in your pins definition file :
@@ -43,11 +45,9 @@ You'll have to add such a block in your pins definition file :
         //#define FORCE_SOFT_SPI                      // Use this if default of hardware SPI causes display problems
       #endif
 
-You will have to figure wich microcontroller pins go to the EXP1 and EXP2 pin headers. May be done without the schematics, but easier with.  
+You will have to figure wich microcontroller pins go to the EXP1 and EXP2 pin headers. May be done without the schematics, but easier with.
 
 **THIS IS AN EXAMPLE !** : lines I had to add to /Marlin/src/pins/lpc1768/pins_BTT_SKR_V1_4.h for a SKR 1.4 Turbo.
-
-
 
 
 ![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8491.JPG)
