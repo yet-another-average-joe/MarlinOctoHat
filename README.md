@@ -50,12 +50,12 @@ You will have to figure wich microcontroller pins go to the EXP1 and EXP2 pin he
 **THIS IS AN EXAMPLE !** : lines I had to add to /Marlin/src/pins/lpc1768/pins_BTT_SKR_V1_4.h for a SKR 1.4 Turbo.
 
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8491.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8491.JPG)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8492.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8492.JPG)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8485.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8485.JPG)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8486.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8486.JPG)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/Pictures/DSC_8487.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8487.JPG)
