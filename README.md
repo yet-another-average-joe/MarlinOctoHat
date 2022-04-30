@@ -10,7 +10,7 @@ The Marlin graphics driver (a optimized u8glib fork) sends bitmaps @1Mbps. The S
 
 The RaspBerry runs a service that overlays the Marlin UI on the RaspBerry display using dispmanx.
 
-This repo contains everything needed to build the hat (two PCBs and a firmware) that replaces the 12864 display. The hat is connected to the printer motherboard through the EXP1 and EXP2 connectors, and breaks out the rotary encoder, the reset button for the STM32 and the motherboard, the speaker, the "Marlin Mode" button, and a 5V screw terminal to power RassPi and the STM32. It also breaks out the RasPi UART for direct connection to the motherboard (if supported...).
+This repo contains everything needed to build the hat (two PCBs and a firmware) that replaces the 12864 display. The hat is connected to the printer motherboard through the EXP1 and EXP2 connectors, and breaks out the rotary encoder, the reset button for the STM32 and the motherboard, the speaker, the "Marlin Mode" button, and a 5V screw terminal to power RasPi and the STM32. It also breaks out the RasPi UART for direct connection to the motherboard (if supported...).
 
 The two PCBs are inexpensive, easy to populate (THT components only), and require components that every tinkerer has at hand : a BluePill (legit or fake), a couple of NPN tranistors and resistors, a small diode, 4 jumpers and some pinheaders and sockets (including a long RaspBerry 2x20 PC104-style pin header/socket. Everything can be easily sourced from Amazon or eBay.
 
