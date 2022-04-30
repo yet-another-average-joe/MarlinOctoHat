@@ -29,9 +29,7 @@ First, enble the "MKS OLED 1.3" 128x64 Full Graphics Controller" in Configuratti
 If the OLED is not supported, you will get an error similar to :
 
 In file included from Marlin\src\lcd\dogm\marlinui_DOGM.cpp:42:
-
 Marlin\src\lcd\dogm\marlinui_DOGM.cpp: In static member function 'static void MarlinUI::init_lcd()':
-
 Marlin\src\lcd\dogm\marlinui_DOGM.h:223:48: error: 'DOGLCD_CS' was not declared in this scope; did you mean 'DOGLCD_SCK'?
 
 You'll have to add such a block in your pins definition file :
