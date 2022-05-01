@@ -1,4 +1,4 @@
-﻿# MarlinOctoHat : hat PCB
+# MarlinOctoHat : hat PCB
  
 The Blue Pill may be legit or "fake" : tested with ST Microeletronics STM32F103C8 and chinese CKS32F103C8T6.
 
@@ -11,7 +11,7 @@ subfolders :
 
 ![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/MarlinOctoHat.png)
 
-![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/DSC_8483.JPG)
+![](https://github.com/yet-another-average-joe/MarlinOctoHat/blob/main/_pictures/MarlinOctoHat.png)
 
 
 
