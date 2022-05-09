@@ -1,137 +1,160 @@
 /*
- Name:        MarlinOctoHat.ino
- Created:    31/08/2021 11:16:18
- Author:    Y@@J
-    TODO : pins PB10/PB11 = input for emulator selection OLED SSD1306 / OLED SSD1309 / OLED SSH1106 / LCD ST7920
-            DISPLAY_TYPE : PB1
-    TODO : power management
-            support for monostable relay throught PIN_RELAY_ON
+ Name:       MarlinOctoHat.ino
+ Created:    2021/08/31 // 2022/05/08
+ Author:     Y@@J
+
+ 
     /////////////////////////////////////////////////////////////////////////////////////
     SPI Slave Sniffer for the SSD1306/SSD1309/SSH1106 OLED ; for marlin UI, u8glib
     tested Ok with SPI SSD1309 OLED and Marlin v2.0.x on genuine and fake STM32F103C6 ("BluePill")
     /////////////////////////////////////////////////////////////////////////////////////
+ 
     thread on stm32duino.com, and special thanks for the help about SPI DMA tranfers ! :
     https://www.stm32duino.com/viewtopic.php?t=825
+
     SSD1306 datasheet :
     https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+
     SPI data :
     1 SPI frame = 8 pages
     1 page = 8lines/128 pixels, vertical macropixels
     1 page : 3 command bytes + 128 bytes (= 8 lines on the display)
     1 command byte = 0x10 0x00 0XBn , n = page # (0...7)
     total : 8 pages ; 8 * 131 = 1048 bytes, CLK @ 1MHz
+    
     /////////////////////////////////////////////////////////////////////////////////////
     // OLED wirings
-        SSD1306-9        SPI
-        SH1106
-        SCL                SCLK
-        SDA                MOSI
-        RES                N/A
-        DC                N/A
-        SS                SS
+
+    SSD1306-9          SPI
+    SH1106
+    SCL                SCLK
+    SDA                MOSI
+    RES                N/A
+    DC                 N/A
+    SS                 SS
+
     SS : LOW for pages, including commands ; HIGH between pages and between frames
     DC : LOW for commands only
     // BluePill / RaspBerry Pi wirings
-                                              ----------
-                        (LCD_5)  [NSS2] PB12 |            | GND
-                        (SCK)    [SCK2] PB13 |            | GND
+
+                                               ----------
+                     (LCD_5)  [NSS2]    PB12 |            | GND
+                     (SCK)    [SCK2]    PB13 |            | GND
                                         PB14 |            | 3V3
-                        (MOSI)  [MOSI2] PB15 |            | RESET
-                                         PA8 |            | PB11 -> GPIO2  (AUX4)
-                                         PA9 |            | PB10 -> GPIO3  (AUX3)
+                     (MOSI)  [MOSI2]    PB15 |            | RESET RESET
+                                         PA8 |            | PB11
+                                         PA9 |            | PB10
                                         PA10 |            | PB1
-                                        PA11 |            | PB0
-                                        PA12 |            | PA7  [MOSI1] -> GPIO20 (SPI1 MOSI)
-                                        PA15 |            | PA6  [MISO1] -> GPIO19 (SPI1 MISO)
-                             (LCD_E)    PB3  |            | PA5  [SCK1]  -> GPIO21 (SPI1 SCLK)
-                             (LCD_4)    PB4  |            | PA4  [NSS1]  -> GPIO16 (SPI1 CS0)
-                             (LCD_7)    PB5  |            | PA3
-        GPIO5  <- DATA_READY            PB6  |            | PA2  PIN_RELAY_OFF
-        GPIO17 <- PIN_SOFT_SHUTDOWN     PB7  |            | PA1  PIN_RELAY_ON
-        GPIO3  <- PIN_HARD_SHUTDOWN     PB8  |            | PA0  PIN_BTN_POWER
-        GPIO2  <- PIN_POWEROFF          PB9  |            | PC15
+                                        PA11 |            | PB0   DISPLAY_TYPE
+                                        PA12 |            | PA7   [MOSI1] -> GPIO20 (SPI1 MOSI)
+                                        PA15 |            | PA6   [MISO1] -> GPIO19 (SPI1 MISO)
+                                        PB3  |            | PA5   [SCK1]  -> GPIO21 (SPI1 SCLK)
+                                        PB4  |            | PA4   [NSS1]  -> GPIO16 (SPI1 CS0)
+                                        PB5  |            | PA3
+        GPIO5  <- DATA_READY            PB6  |            | PA2   (PIN_RELAY_OFF)
+       (GPIO17 <- PIN_SOFT_SHUTDOWN)    PB7  |            | PA1   (PIN_RELAY_ON)
+       (GPIO3  <- PIN_HARD_SHUTDOWN)    PB8  |            | PA0   (PIN_BTN_POWER)
+       (GPIO2  <- PIN_POWEROFF)         PB9  |            | PC15
                                          5V  |            | PC14
                                         GND  |            | PC13
                                         3V3  |            | VBAT
                                              |            |
-                                              ----------
+                                               ----------
     LCD_E, LCD_4, LCD_7 : variant with ST7920 emulator (not implemented)
     SPI2 : SPI "input" (MOSI), from printer motherboard
     ---------------------------------------------------
-        STM32 Pins : 5V tolerant
-            MoBo        OLED    BluePill
-            XP1_5        CS        PB12    PIN_SS_2
-            XP2-9        SCL       PB13    PIN_SCK_2
-                         N/C       PB14
-            EXP2-5       SDA       PB15    PIN_MOSI_2
+
+    STM32 Pins : 5V tolerant
+        MoBo        OLED     BluePill
+        XP1_5        CS        PB12    PIN_SS_2
+        XP2-9        SCL       PB13    PIN_SCK_2
+                     N/C       PB14
+        EXP2-5       SDA       PB15    PIN_MOSI_2
+
     SPI1 :    SPI "output" (MISO), to RasPi
     -------------------------------------
-        STM32 Pins : /!\ NOT 5V TOLERANT /!\
-            PIN_READY : high for READY_PULSE_DURATION ms when a new bitmap is available
-                        tells the RasPi it's time to get data and refresh display
-                        drastically reduces RasPi CPU usage
-                    BluePill            PasPi
-             PA7    PIN_MOSI1            [38]    GPIO20    MOSI1
-            (PA6    PIN_MISO1            [35]    GPIO19    MISO1)
-             PA5    PIN_SCK1             [40]    GPIO21    SCK1
-             PA4    PIN_NSS1             [36]    GPIO16    NSS1
-             PB6    PIN_READY            [29]    GPIO5     data ready to send
-             PB7    PIN_SOFT_SHUTDOWN    [11]    GPIO17    output, default = LOW, HIGH = short press -> OctoPrint Shutdown
-             PB8    PIN_HARD_SHUTDOWN    [5]     GPIO3     output, default = LOW, HIGH triggered by PIN_BTN_POWER long press -> OS Shutdown
-             PB9    PIN_POWEROFF         [3]     GPIO2     input, interrupt
-             PA0    PIN_BTN_POWER        [33]    GPIO13    input, pullup,    interrupt, sends 1 sec LOW pulse to PIN_HARD_SHUTDOWN
-             PA1    PIN_RELAY_ON         [32]    GPIO12    output, default = LOW, HIGH for 1 sec at boot
-             PA2    PIN_RELAY_OFF        [31]    GPIO6     output, default = LOW, HIGH triggerd by PIN_POWEROFF
+
+    STM32 Pins : /!\ NOT 5V TOLERANT /!\
+    PIN_READY : high for READY_PULSE_DURATION ms when a new bitmap is available
+                tells the RasPi it's time to get data and refresh display
+                drastically reduces RasPi CPU usage
+
+            BluePill            PasPi
+     PA7    PIN_MOSI1            [38]    GPIO20    MOSI1
+    (PA6    PIN_MISO1            [35]    GPIO19    MISO1)
+     PA5    PIN_SCK1             [40]    GPIO21    SCK1
+     PA4    PIN_NSS1             [36]    GPIO16    NSS1
+     PB6    PIN_READY            [29]    GPIO5     data ready to send
+     PB7    PIN_SOFT_SHUTDOWN    [11]    GPIO17    output, default = LOW, HIGH = short press -> OctoPrint Shutdown
+     PB8    PIN_HARD_SHUTDOWN    [5]     GPIO3     output, default = LOW, HIGH triggered by PIN_BTN_POWER long press -> OS Shutdown
+     PB9    PIN_POWEROFF         [3]     GPIO2     input, interrupt
+     PA0    PIN_BTN_POWER        [33]    GPIO13    input, pullup,    interrupt, sends 1 sec LOW pulse to PIN_HARD_SHUTDOWN
+     PA1    PIN_RELAY_ON         [32]    GPIO12    output, default = LOW, HIGH for 1 sec at boot
+     PA2    PIN_RELAY_OFF        [31]    GPIO6     output, default = LOW, HIGH triggerd by PIN_POWEROFF
 
 */
-lkjhsqdgfklhjgbqskdhjgbksdqjhgdksjhkqgqsdkjfhgqsdf
+
 #include <SPI.h>
-//#include "Bitmaps.h"
+#include <string.h>
 
 //#define __SERIAL_DEBUG // costs 2328 bytes
+//#define __PRINT_HEX  // prints bitmaps to Serial as ASCII Hex array 32x32
+//#define __PRINT_ASCII_ART  // prints bitmaps to Serial as ASCII Art
+
+#ifdef __SERIAL_DEBUG
+    #ifdef __PRINT_HEX
+        void printOledHex();
+    #elif defined(__PRINT_ASCII_ART) 
+        void printOledAsciiArt(const char bmp[8][128]);
+    #endif
+#endif // __SERIAL_DEBUG
+
+//  power management
+//#define __POWER
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// pins : pullups ? pulldowns ?
-
-// SPI_1 : input (MOSI), OLED sniffing ; /!\ *NOT* 5V tolerant
-// SPI_2 : output (MISO), to RaspBerry Pi
+// pins :
+// SPI_2 : input (MOSI), OLED sniffing ; /!\ *NOT* 5V tolerant
+// SPI_1 : output(MISO), to RaspBerry Pi
 // pins are set by the library
 
 #define READY_PULSE_DURATION    1        // 1ms
 
-#define PIN_READY        PB6
+#define PIN_READY            PB6
 
-//#define PIN_HARD_SHUTDOWN    PB8        // to RasPi Shutdown pin (5 / GPIO3)
-//#define PIN_POWEROFF         PB9        // from RasPi PowerOff pin (2 / GPIO2)
-#define PIN_BTN_POWER        PA0        // Power button
-#define PIN_RELAY_ON         PA1        // to PSU module ; ON bistable coil
-#define PIN_RELAY_OFF        PA2        // to PSU module ; OFF bistable coil
-#define PIN_SOFT_SHUTDOWN    PB7        // to RasPi (11 / GPIO17)
+#ifdef __POWER
+//#define PIN_HARD_SHUTDOWN     PB8        // to RasPi Shutdown pin (5 / GPIO3)
+//#define PIN_POWEROFF          PB9        // from RasPi PowerOff pin (2 / GPIO2)
+#define PIN_BTN_POWER         PA0        // Power button
+#define PIN_RELAY_ON          PA1        // to PSU module ; ON bistable coil
+#define PIN_RELAY_OFF         PA2        // to PSU module ; OFF bistable coil
+#define PIN_SOFT_SHUTDOWN     PB7        // to RasPi (11 / GPIO17)
 
-#define LONG_PRESS_TIME            1500    // milliseconds
-#define DEBOUNCE_TIME                25    // milliseconds
-#define HARD_SHUTDOWN_PULSE         500    // 100ms debounce by default on RasPi ; min pulse width 210ms (measured)
-#define SOFT_SHUTDOWN_PULSE         500    // milliseconds
-#define RELAY_PULSE                 500    // milliesconds ; Schrack RT314F12 : min 30 ms
+#define LONG_PRESS_TIME      1500    // milliseconds
+#define DEBOUNCE_TIME          25    // milliseconds
+#define HARD_SHUTDOWN_PULSE   500    // 100ms debounce by default on RasPi ; min pulse width 210ms (measured)
+#define SOFT_SHUTDOWN_PULSE   500    // milliseconds
+#define RELAY_PULSE           500    // milliesconds ; Schrack RT314F12 : min 30 ms
+#endif // __POWER
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // OLED    data
 
 // data (SSD1306/SSD1309) : 1 frame = 8 pages, 1 page = 3 command bytes + 128 bytes, 1 page = 8 graphic lines
 #define OLED_PAGE_COUNT          8
-#define    OLED_LINES_PER_PAGE   8
+#define OLED_LINES_PER_PAGE      8
 #define OLED_CMD_SIZE            3
 #define OLED_PAGE_SIZE           128
 #define OLED_SPI_PAGE_SIZE       (OLED_CMD_SIZE + OLED_PAGE_SIZE)        // 1048
 #define OLED_SPI_FRAME_SIZE      (OLED_PAGE_COUNT * OLED_SPI_PAGE_SIZE)  // 1024
 
 // bmpOled with vertical 8bit monochrome macropixels...
-volatile uint8_t bmpOled[OLED_PAGE_COUNT][OLED_PAGE_SIZE] = { 0 };
+volatile uint8_t bmpOled[OLED_PAGE_COUNT][OLED_PAGE_SIZE] = {0};
 
 // converts bmpOled to horizontal 8bit monochrome macropixels
 // will be used as Tx buffer for SPI_1
 // allways keeps the last captured screen until a new one arrives
-volatile uint8_t bmpOut[OLED_PAGE_COUNT * OLED_PAGE_SIZE] = { 0 };
+volatile uint8_t bmpOut[OLED_PAGE_COUNT * OLED_PAGE_SIZE] = {0};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPI 1&2 : DMA channels
@@ -221,12 +244,16 @@ void ISR_NSS_2()
 // ISR : PIN_POWEROFF
 // "poweroff" from RasPi
 
+#ifdef __POWER
+
 bool flagPowerOff = false;
 
 void ISR_POWEROFF()
 {
     flagPowerOff = true;
 }
+
+#endif //__POWER
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // function : "Arduino" setup()
@@ -237,30 +264,30 @@ void setup()
     Serial.begin(115200);
 #endif
 
-//    pinMode(PIN_HARD_SHUTDOWN, OUTPUT);
-//    digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
+#ifdef __POWER
+    //pinMode(PIN_HARD_SHUTDOWN, OUTPUT);
+    //digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
     pinMode(PIN_SOFT_SHUTDOWN, OUTPUT);
     digitalWrite(PIN_SOFT_SHUTDOWN, HIGH);
-
-    pinMode(LED_BUILTIN, OUTPUT); // blinks when display is updated
-
-    pinMode(PIN_READY, OUTPUT);
-    digitalWrite(PIN_READY, LOW);
-    pinMode(PIN_NSS_2, INPUT);    // needed ?
-
-    //pinMode(PIN_POWEROFF, INPUT);
     pinMode(PIN_BTN_POWER, INPUT_PULLUP);
     pinMode(PIN_RELAY_ON, OUTPUT);
     pinMode(PIN_RELAY_OFF, OUTPUT);
+    //pinMode(PIN_POWEROFF, INPUT);
 
     // turn bistable relay on
     digitalWrite(PIN_RELAY_OFF, LOW);
     digitalWrite(PIN_RELAY_ON, HIGH);
     delay(RELAY_PULSE); // bistable relay pulse
     digitalWrite(PIN_RELAY_ON, LOW);
+    //attachInterrupt(digitalPinToInterrupt(PIN_POWEROFF), ISR_POWEROFF, FALLING);
+#endif // __POWER
+
+    pinMode(LED_BUILTIN, OUTPUT); // blinks when display is updated
+    pinMode(PIN_READY, OUTPUT);
+    digitalWrite(PIN_READY, LOW);
+    pinMode(PIN_NSS_2, INPUT);    // needed ?
 
     attachInterrupt(digitalPinToInterrupt(PIN_NSS_2), ISR_NSS_2, RISING);
-    //attachInterrupt(digitalPinToInterrupt(PIN_POWEROFF), ISR_POWEROFF, FALLING);
 
     setup_SPI_1();
     setup_SPI_1_DMA();
@@ -285,7 +312,15 @@ void loop()
         delay(READY_PULSE_DURATION);
         digitalWrite(PIN_READY, LOW);
         digitalWrite(LED_BUILTIN, HIGH);
+
+#if defined(__SERIAL_DEBUG) && defined(__PRINT_HEX) 
+        printOledHex();
+#elif defined(__SERIAL_DEBUG) && defined(__PRINT_ASCII_ART) 
+        printOledAsciiArt((const char(*)[128])bmpOut);
+#endif
     }
+
+#ifdef __POWER
 
     if (flagPowerOff)
     {
@@ -307,58 +342,60 @@ void loop()
     static bool done = false;
     //digitalWrite(PIN_HARD_SHUTDOWN, digitalRead(PIN_BTN_POWER));
     digitalWrite(PIN_SOFT_SHUTDOWN, digitalRead(PIN_BTN_POWER));
-/*
-    btnState = digitalRead(PIN_BTN_POWER);
+ /*
+        btnState = digitalRead(PIN_BTN_POWER);
 
-    if (btnState == LOW && prevBtnState == HIGH && (millis() - firstButtonPressTime) > DEBOUNCE_TIME)
-        firstButtonPressTime = millis();
+        if (btnState == LOW && prevBtnState == HIGH && (millis() - firstButtonPressTime) > DEBOUNCE_TIME)
+            firstButtonPressTime = millis();
 
-    holdingTime = (millis() - firstButtonPressTime);
+        holdingTime = (millis() - firstButtonPressTime);
 
-    if (holdingTime > DEBOUNCE_TIME)
-    {
-        if (btnState == LOW && holdingTime > prevHoldingTime)
+        if (holdingTime > DEBOUNCE_TIME)
         {
-            if (holdingTime > LONG_PRESS_TIME && !done)
+            if (btnState == LOW && holdingTime > prevHoldingTime)
             {
+                if (holdingTime > LONG_PRESS_TIME && !done)
+                {
 #ifdef __SERIAL_DEBUG
-                Serial.println("LONG PRESS");
-                //delay(HARD_SHUTDOWN_PULSE);
-                digitalWrite(PIN_HARD_SHUTDOWN, LOW);
-                delay(HARD_SHUTDOWN_PULSE);
-                digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
+                    Serial.println("LONG PRESS");
+                    //delay(HARD_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_HARD_SHUTDOWN, LOW);
+                    delay(HARD_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
 #else
-                digitalWrite(PIN_HARD_SHUTDOWN, LOW);
-                delay(HARD_SHUTDOWN_PULSE);
-                digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
+                    digitalWrite(PIN_HARD_SHUTDOWN, LOW);
+                    delay(HARD_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_HARD_SHUTDOWN, HIGH);
 #endif
-                done = true;
+                    done = true;
+                }
+            }
+
+            if (btnState == HIGH && prevBtnState == LOW)
+            {
+                done = false;
+
+                if (holdingTime <= LONG_PRESS_TIME)
+                {
+#ifdef __SERIAL_DEBUG
+                    Serial.println("SHORT PRESS");
+                    //                delay(SOFT_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_SOFT_SHUTDOWN, HIGH);
+                    delay(SOFT_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_SOFT_SHUTDOWN, LOW);
+#else
+                    digitalWrite(PIN_SOFT_SHUTDOWN, HIGH);
+                    delay(SOFT_SHUTDOWN_PULSE);
+                    digitalWrite(PIN_SOFT_SHUTDOWN, LOW);
+#endif
+                }
             }
         }
-
-        if (btnState == HIGH && prevBtnState == LOW)
-        {
-            done = false;
-
-            if (holdingTime <= LONG_PRESS_TIME)
-            {
-#ifdef __SERIAL_DEBUG
-                Serial.println("SHORT PRESS");
-                //                delay(SOFT_SHUTDOWN_PULSE);
-                digitalWrite(PIN_SOFT_SHUTDOWN, HIGH);
-                delay(SOFT_SHUTDOWN_PULSE);
-                digitalWrite(PIN_SOFT_SHUTDOWN, LOW);
-#else
-                digitalWrite(PIN_SOFT_SHUTDOWN, HIGH);
-                delay(SOFT_SHUTDOWN_PULSE);
-                digitalWrite(PIN_SOFT_SHUTDOWN, LOW);
-#endif
-            }
-        }
-    }
-*/
+ */
     prevBtnState = btnState;
     prevHoldingTime = holdingTime;
+
+#endif // __POWER
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -489,19 +526,20 @@ void SPI_2_DMA_IRQ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// function : copies the SPI/DMA buffer to bmpOut, stripping the command bytes ; duration  30µs
+// function : copies the SPI/DMA buffer to bmpOut, stripping the command bytes
+// duration  30us
 
 bool stripCmdBytes()
 {
-    for (int i = 0; i < OLED_PAGE_COUNT; i++)
+    for (int iPage = 0; iPage < OLED_PAGE_COUNT; iPage++)
     {
-        uint8_t* pRxBuf = (uint8_t*)SPI_2_Rx_Buffer + i * OLED_SPI_PAGE_SIZE;
+        uint8_t* pRxBuf = (uint8_t*)SPI_2_Rx_Buffer + iPage * OLED_SPI_PAGE_SIZE;
         uint16_t cmd = *(uint16_t*)pRxBuf; // command bytes
         uint8_t pageNum = *(uint8_t*)(pRxBuf + 2);
 
         // test 1st 3 bytes (= command bytes) of each frame ; 0x10 0x00 0xBn , n = frame #
         // shouldn't happen, see /CS ISR...
-        if (cmd != 0x10 || pageNum != i + 0xB0)
+        if (cmd != 0x10 || pageNum != iPage + 0xB0)
         {
 #ifdef __SERIAL_DEBUG
             Serial.println("stripCmdBytes() : ERROR");
@@ -510,7 +548,7 @@ bool stripCmdBytes()
         }
 
         // copy pages to bmpOled, drop command bytes
-        memcpy((uint8_t*)&bmpOled + i * OLED_PAGE_SIZE, pRxBuf + OLED_CMD_SIZE, OLED_PAGE_SIZE);
+        memcpy((uint8_t*)&bmpOled + iPage * OLED_PAGE_SIZE, pRxBuf + OLED_CMD_SIZE, OLED_PAGE_SIZE);
     }
 
     return true;
@@ -520,40 +558,94 @@ bool stripCmdBytes()
 // function : converts the OLED bitmap into bmpOut bitmap
 //
 //    SSD1306/SSD1309/SSH1106 : 8 pages with 128 8bit vertical macropixels
-//    bmpOut : 1024 8bit monochrome macropixels (128 lines 64 columns)
-//    The operation is similar to a matrix transposition, each elementaty matrix being 8x8
-//    duration : 3.9ms
+//    bmpOut : 1024 byes, 1bit linear bitmap (128 lines 64 columns)
+//    Similar to a matrix transposition, each elementaty matrix being 8x8
+//    duration : 2.80ms
 
 void bmpOledToBmpOut()
 {
-    uint16_t i = 0; // bytes counter for output bitmap
-    uint16_t j = 0; // bits counter for the current byte
+#ifdef __SERIAL_DEBUG
+    uint32 t0 = micros();
+#endif // __SERIAL_DEBUG
+
+    uint16_t iByte = 0; // bytes counter for output bitmap
+    uint16_t jBit = 0; // bits counter for the current byte
+    memset((void*)bmpOut, 0, OLED_PAGE_COUNT * OLED_PAGE_SIZE); // reset to zero
 
     for (uint8_t page = 0; page < OLED_PAGE_COUNT; page++)
         for (uint8_t line = 0; line < OLED_LINES_PER_PAGE; line++)
             for (uint8_t col = 0; col < OLED_PAGE_SIZE; col++)
             {
                 // vertical byte to horizontal byte
+				if (bmpOled[page][col] & (1 << line))
+					bmpOut[iByte] |= (1 << (7 - jBit));
 
-                uint8_t val = bmpOled[page][col];
+                jBit++;
+                jBit %= 8;
 
-                if (val & (1 << line))
-                    bmpOut[i] |= (1 << (7 - j));
-                else
-                    bmpOut[i] &= ~(1 << (7 - j));
-
-
-                if (val & (1 << line))
-                    bmpOut[i] |= (1 << (7 - j));
-                else
-                    bmpOut[i] &= ~(1 << (7 - j));
-
-                j++;
-                j %= 8;
-
-                if (j == 0) // byte complete
-                    i++; // next byte
+                if (jBit == 0) // byte complete
+                    iByte++; // next byte
             }
+
+#ifdef __SERIAL_DEBUG
+    Serial.println(micros() - t0);
+#endif // __SERIAL_DEBUG
 }
 
+#if defined(__SERIAL_DEBUG) && defined(__PRINT_HEX) 
+void printOledHex()
+{
+    Serial.println();
+
+    int k = 0;
+
+    for (int i = 0; i < 32; i++)
+    {
+        for (int j = 0; j < 32; j++)
+        {
+            uint8_t b = bmpOut[k++];
+            if (b < 0x10)
+                Serial.print("0x0");
+            else
+                Serial.print("0x");
+            Serial.print(b, HEX);
+            Serial.print(", ");
+        }
+        Serial.println();
+    }
+
+    Serial.println();
+
+    for (int x = 0; x < 128; x++)
+        Serial.print('X');
+
+    Serial.println();
+}
+
+#elif defined(__SERIAL_DEBUG) && defined(__PRINT_ASCII_ART)
+
+// print ASCII art to the terminal
+void printOledAsciiArt(const char bmp[8][128])
+{
+    for (int page = 0; page < OLED_PAGE_COUNT; page++)
+    {
+        // 128 blocs de 8 lignes ; bits de poids faible = ligne du haut
+        for (int line = 0; line < OLED_LINES_PER_PAGE; line++)
+        {
+            for (int col = 0; col < OLED_PAGE_SIZE; col++)
+            {
+                uint8_t val = bmpOled[page][col];
+                if (val & 1 << line)
+                    Serial.print('#');
+                else
+                    Serial.print(' ');
+            }
+
+            Serial.println();
+        }
+    }
+
+    Serial.println();
+}
+#endif // __SERIAL_DEBUG && __PRINT_ASCII_ART
 // END
